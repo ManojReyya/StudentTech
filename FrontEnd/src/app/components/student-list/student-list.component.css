@@ -1,0 +1,35 @@
+/* Component-specific styles */
+.student-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.tech-stack-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.filter-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.filter-info {
+  background: #e3f2fd;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  color: #1976d2;
+  font-weight: 500;
+}

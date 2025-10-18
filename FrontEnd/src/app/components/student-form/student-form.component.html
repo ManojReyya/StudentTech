@@ -1,0 +1,66 @@
+<div class="card" style="background: #f8f9fa; border: 2px solid #667eea;">
+  <h3 style="color: #667eea; margin-bottom: 20px;">
+    {{ student ? '✏️ Edit Student' : '➕ Add New Student' }}
+  </h3>
+
+  <form (submit)="onSubmit()">
+    <!-- Student Name -->
+    <div class="form-group">
+      <label for="studentName">Student Name *</label>
+      <input 
+        type="text" 
+        id="studentName"
+        [(ngModel)]="studentName"
+        name="studentName"
+        placeholder="Enter student name"
+        required>
+    </div>
+
+    <!-- Tech Stacks Selection -->
+    <div class="form-group">
+      <label>Tech Stacks * (Select at least one)</label>
+      <div class="tech-stack-grid">
+        <label *ngFor="let tech of availableTechStacks">
+          <input 
+            type="checkbox"
+            [checked]="selectedTechStacks[tech]"
+            (change)="onTechStackChange(tech, $any($event.target).checked)">
+          <span>{{ tech }}</span>
+        </label>
+      </div>
+      <p style="color: #667eea; font-size: 12px; margin-top: 10px;">
+        Selected: {{ getSelectedCount() }} tech stack(s)
+      </p>
+    </div>
+
+    <!-- Add Custom Tech Stack -->
+    <div class="form-group">
+      <label for="customTech">Add Custom Tech Stack</label>
+      <div style="display: flex; gap: 10px;">
+        <input 
+          type="text" 
+          id="customTech"
+          [(ngModel)]="customTechStack"
+          name="customTechStack"
+          placeholder="e.g., Docker, Kubernetes"
+          style="flex: 1;">
+        <button 
+          type="button" 
+          class="btn-secondary"
+          (click)="addCustomTechStack()">
+          ➕ Add
+        </button>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button type="submit" class="btn-success">
+        💾 {{ student ? 'Update' : 'Save' }} Student
+      </button>
+      <button type="button" class="btn-danger" (click)="onCancel()">
+        ❌ Cancel
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,92 @@
+<div class="container">
+  <h1>🎓 Student Tech Stack Directory</h1>
+
+  <!-- Add Student Button -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button class="btn-success" (click)="toggleAddForm()">
+      {{ showAddForm ? '❌ Cancel' : '➕ Add New Student' }}
+    </button>
+  </div>
+
+  <!-- Add Student Form -->
+  <div *ngIf="showAddForm">
+    <app-student-form 
+      (studentSaved)="addStudent($event)"
+      (cancelled)="toggleAddForm()">
+    </app-student-form>
+  </div>
+
+  <!-- Filter Section -->
+  <div class="filter-section">
+    <h3>🔍 Filter by Tech Stacks</h3>
+    <p style="color: #666; margin-bottom: 15px;">
+      Select one or more tech stacks to filter students (shows students with ALL selected stacks)
+    </p>
+    
+    <div class="filter-options">
+      <label *ngFor="let tech of availableTechStacks">
+        <input 
+          type="checkbox" 
+          [checked]="selectedTechStacks[tech]"
+          (change)="onTechStackChange(tech, $any($event.target).checked)">
+        <span>{{ tech }}</span>
+      </label>
+    </div>
+
+    <div style="margin-top: 15px;">
+      <button class="btn-secondary" (click)="clearFilters()">
+        🔄 Clear All Filters
+      </button>
+      <span style="margin-left: 15px; color: #667eea; font-weight: 600;">
+        {{ getSelectedTechStacksCount() }} filter(s) active | 
+        Showing {{ filteredStudents.length }} of {{ students.length }} students
+      </span>
+    </div>
+  </div>
+
+  <!-- Edit Student Form -->
+  <div *ngIf="editingStudent">
+    <h2>✏️ Edit Student</h2>
+    <app-student-form 
+      [student]="editingStudent"
+      (studentSaved)="saveStudent($event)"
+      (cancelled)="cancelEdit()">
+    </app-student-form>
+  </div>
+
+  <!-- Students List -->
+  <div>
+    <h2>👥 Student Profiles ({{ filteredStudents.length }})</h2>
+    
+    <div *ngIf="filteredStudents.length === 0" class="alert alert-info">
+      📭 No students found matching the selected filters.
+    </div>
+
+    <div class="grid">
+      <div *ngFor="let student of filteredStudents" class="card">
+        <h3 style="color: #667eea; margin-bottom: 15px;">{{ student.name }}</h3>
+        
+        <div style="margin-bottom: 15px;">
+          <strong style="color: #555;">Tech Stacks:</strong>
+          <div style="margin-top: 8px;">
+            <span 
+              *ngFor="let tech of student.techStacks" 
+              class="badge"
+              [ngClass]="getTechStackBadgeClass(tech)">
+              {{ tech }}
+            </span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+          <button class="btn-warning" (click)="editStudent(student)">
+            ✏️ Edit
+          </button>
+          <button class="btn-danger" (click)="deleteStudent(student.id)">
+            🗑️ Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
